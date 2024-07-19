@@ -10,5 +10,5 @@
 The application is necessary for storing, deleting, and changing object parameters. 
 The board database supports multiple tables
 To install the application, you must:
-1. Install Anyuta in the middle of work
+1. Install IDE Anjuta
 2. Install the libtool-bin package ( sudo get-apt install libtool-bin)

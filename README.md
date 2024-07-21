@@ -14,5 +14,4 @@ To install the application, you must:
 1. Install IDE Anjuta
 2. Install the libtool-bin package ( sudo get-apt install libtool-bin)
 =======
-# board
->>>>>>> 7acd067 (Initial commit)
+

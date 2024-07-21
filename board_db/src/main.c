@@ -33,7 +33,7 @@
 #define MAX_RM_RSBN_COUNT  130     
 #define MAX_RM_VOR_COUNT   140     
 #define MAX_ZONE_COUNT 	   150     
-#define GEOPOINT_NAME_SIZE 256
+#define POINT_NAME_SIZE    256
 
 //enum type_db { GEO_DB, AER_DB, MRSH_DB, RSBN_DB, VOR_DB, ZONE_ZAP_DB, ZONE_PLT_DB, ZONE_AER_DB, aer_db };
 enum type_db { geo_db, aer_db, mrsh_db, rsbn_db, vor_db, zone_zap_db, zone_plt_db, zone_aer_db };
@@ -108,7 +108,7 @@ create_window (void)
 typedef struct s_geo_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -143,7 +143,7 @@ typedef struct s_geo_db
 typedef struct s_aer_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -178,7 +178,7 @@ typedef struct s_aer_db
 typedef struct s_mrsh_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -213,7 +213,7 @@ typedef struct s_mrsh_db
 typedef struct s_rsbn_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -249,7 +249,7 @@ typedef struct s_rsbn_db
 typedef struct s_vor_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -284,7 +284,7 @@ typedef struct s_vor_db
 typedef struct s_zone_zap_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -319,7 +319,7 @@ typedef struct s_zone_zap_db
 typedef struct s_zone_plt_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -354,7 +354,7 @@ typedef struct s_zone_plt_db
 typedef struct s_zone_aer_add
 {
 	uint num;
-	char name[ GEOPOINT_NAME_SIZE ];
+	char name[ POINT_NAME_SIZE ];
 	double lat;
 	double lon;
 	float hAbs;
@@ -529,14 +529,13 @@ read_board_db( GtkWidget *widget, gpointer data, int size_board_db, char warning
 				break;
 			}
 			case zone_aer_db: {
-				printf("\nНомер: %u\n Имя: %s\n Широта: %lf\n Долгота: %lf\n Абсолютная высота: %f\n Склонение: %f %u\n", 
+				printf("\nНомер: %u\n Имя: %s\n Широта: %lf\n Долгота: %lf\n Абсолютная высота: %f\n Склонение: %f\n", 
 					   board_db->zone_aer_db[ i ].zone_aer_add.num,	
 					   board_db->zone_aer_db[ i ].zone_aer_add.name,	
 					   board_db->zone_aer_db[ i ].zone_aer_add.lat,
 					   board_db->zone_aer_db[ i ].zone_aer_add.lon,
 					   board_db->zone_aer_db[ i ].zone_aer_add.hAbs,
-					   board_db->zone_aer_db[ i ].zone_aer_add.declination,
-				board_db->zone_aer_db[ i ].zone_aer_add.valid.editability);
+					   board_db->zone_aer_db[ i ].zone_aer_add.declination);
 				printf("-------------------------------");
 				break;
 			}
@@ -583,15 +582,15 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 		case geo_db: {
 			while ( i < MAX_GEOPOINT_COUNT )
 			{
-					if ( board_db->geo_db[ i ].geo_add.valid.declination == 0 ||
-					board_db->geo_db[ i ].geo_add.valid.num == 0 ||
-					board_db->geo_db[ i ].geo_add.valid.name == 0 ||
-					board_db->geo_db[ i ].geo_add.valid.lat == 0 ||
-					board_db->geo_db[ i ].geo_add.valid.lon == 0 ||
+					if ( board_db->geo_db[ i ].geo_add.valid.declination == 0 	||
+					board_db->geo_db[ i ].geo_add.valid.num == 0 				||
+					board_db->geo_db[ i ].geo_add.valid.name == 0				||
+					board_db->geo_db[ i ].geo_add.valid.lat == 0 				||
+					board_db->geo_db[ i ].geo_add.valid.lon == 0 				||
 					board_db->geo_db[ i ].geo_add.valid.hAbs == 0 )
 				{
 					board_db->geo_db[ i ].geo_add.num 			= 0;
-					strncpy( board_db->geo_db[ i ].geo_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+					strncpy( board_db->geo_db[ i ].geo_add.name, "", POINT_NAME_SIZE - 1 );
 					board_db->geo_db[ i ].geo_add.lat 			= 0.0;
 					board_db->geo_db[ i ].geo_add.lon 			= 0.0;
 					board_db->geo_db[ i ].geo_add.hAbs 			= 0.0;
@@ -604,20 +603,19 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 		case aer_db: {
 			while ( i < MAX_AERDRM_COUNT )
 			{
-					if ( board_db->aer_db[ i ].aer_add.valid.declination == 0 ||
-					board_db->aer_db[ i ].aer_add.valid.num == 0 ||
-					board_db->aer_db[ i ].aer_add.valid.name == 0 ||
-					board_db->aer_db[ i ].aer_add.valid.lat == 0 ||
-					board_db->aer_db[ i ].aer_add.valid.lon == 0 ||
+					if ( board_db->aer_db[ i ].aer_add.valid.declination == 0 	||
+					board_db->aer_db[ i ].aer_add.valid.num == 0 				||
+					board_db->aer_db[ i ].aer_add.valid.name == 0 				||
+					board_db->aer_db[ i ].aer_add.valid.lat == 0 				||
+					board_db->aer_db[ i ].aer_add.valid.lon == 0 				||
 					board_db->aer_db[ i ].aer_add.valid.hAbs == 0 )
 				{
 					board_db->aer_db[ i ].aer_add.num 			= 0;
-					strncpy( board_db->aer_db[ i ].aer_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+					strncpy( board_db->aer_db[ i ].aer_add.name, "", POINT_NAME_SIZE - 1 );
 					board_db->aer_db[ i ].aer_add.lat 			= 0.0;
 					board_db->aer_db[ i ].aer_add.lon 			= 0.0;
 					board_db->aer_db[ i ].aer_add.hAbs 			= 0.0;
 					board_db->aer_db[ i ].aer_add.declination 	= 0.0;
-					board_db->aer_db[ i ].aer_add.valid.editability 	= 0;
 				}
 				++i;
 			}
@@ -627,18 +625,18 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 			while ( i < MAX_ROUTES_COUNT )
 			{
 					if ( board_db->mrsh_db[ i ].mrsh_add.valid.declination == 0 ||
-					board_db->mrsh_db[ i ].mrsh_add.valid.num == 0 ||
-					board_db->mrsh_db[ i ].mrsh_add.valid.name == 0 ||
-					board_db->mrsh_db[ i ].mrsh_add.valid.lat == 0 ||
-					board_db->mrsh_db[ i ].mrsh_add.valid.lon == 0 ||
+					board_db->mrsh_db[ i ].mrsh_add.valid.num == 0 				||
+					board_db->mrsh_db[ i ].mrsh_add.valid.name == 0 			||
+					board_db->mrsh_db[ i ].mrsh_add.valid.lat == 0 				||
+					board_db->mrsh_db[ i ].mrsh_add.valid.lon == 0 				||
 					board_db->mrsh_db[ i ].mrsh_add.valid.hAbs == 0 )
 				{
-					board_db->mrsh_db[ i ].mrsh_add.num 			= 0;
-					strncpy( board_db->mrsh_db[ i ].mrsh_add.name, "", GEOPOINT_NAME_SIZE - 1 );
-					board_db->mrsh_db[ i ].mrsh_add.lat 			= 0.0;
-					board_db->mrsh_db[ i ].mrsh_add.lon 			= 0.0;
-					board_db->mrsh_db[ i ].mrsh_add.hAbs 			= 0.0;
-					board_db->mrsh_db[ i ].mrsh_add.declination 	= 0.0;
+					board_db->mrsh_db[ i ].mrsh_add.num 		= 0;
+					strncpy( board_db->mrsh_db[ i ].mrsh_add.name, "", POINT_NAME_SIZE - 1 );
+					board_db->mrsh_db[ i ].mrsh_add.lat 		= 0.0;
+					board_db->mrsh_db[ i ].mrsh_add.lon 		= 0.0;
+					board_db->mrsh_db[ i ].mrsh_add.hAbs 		= 0.0;
+					board_db->mrsh_db[ i ].mrsh_add.declination = 0.0;
 				}
 				++i;
 			}
@@ -647,15 +645,15 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 		case vor_db: {
 			while ( i < MAX_RM_VOR_COUNT )
 			{
-					if ( board_db->vor_db[ i ].vor_add.valid.declination == 0 ||
-					board_db->vor_db[ i ].vor_add.valid.num == 0 ||
-					board_db->vor_db[ i ].vor_add.valid.name == 0 ||
-					board_db->vor_db[ i ].vor_add.valid.lat == 0 ||
-					board_db->vor_db[ i ].vor_add.valid.lon == 0 ||
+					if ( board_db->vor_db[ i ].vor_add.valid.declination == 0 	||
+					board_db->vor_db[ i ].vor_add.valid.num == 0 				||
+					board_db->vor_db[ i ].vor_add.valid.name == 0 				||
+					board_db->vor_db[ i ].vor_add.valid.lat == 0 				||
+					board_db->vor_db[ i ].vor_add.valid.lon == 0 				||
 					board_db->vor_db[ i ].vor_add.valid.hAbs == 0 )
 				{
 					board_db->vor_db[ i ].vor_add.num 			= 0;
-					strncpy( board_db->vor_db[ i ].vor_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+					strncpy( board_db->vor_db[ i ].vor_add.name, "", POINT_NAME_SIZE - 1 );
 					board_db->vor_db[ i ].vor_add.lat 			= 0.0;
 					board_db->vor_db[ i ].vor_add.lon 			= 0.0;
 					board_db->vor_db[ i ].vor_add.hAbs 			= 0.0;
@@ -669,18 +667,18 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 			while ( i < MAX_ZONE_COUNT )
 			{
 					if ( board_db->zone_zap_db[ i ].zone_zap_add.valid.declination == 0 ||
-					board_db->zone_zap_db[ i ].zone_zap_add.valid.num == 0 ||
-					board_db->zone_zap_db[ i ].zone_zap_add.valid.name == 0 ||
-					board_db->zone_zap_db[ i ].zone_zap_add.valid.lat == 0 ||
-					board_db->zone_zap_db[ i ].zone_zap_add.valid.lon == 0 ||
+					board_db->zone_zap_db[ i ].zone_zap_add.valid.num == 0 				||
+					board_db->zone_zap_db[ i ].zone_zap_add.valid.name == 0 			||
+					board_db->zone_zap_db[ i ].zone_zap_add.valid.lat == 0 				||
+					board_db->zone_zap_db[ i ].zone_zap_add.valid.lon == 0 				||
 					board_db->zone_zap_db[ i ].zone_zap_add.valid.hAbs == 0 )
 				{
-					board_db->zone_zap_db[ i ].zone_zap_add.num 			= 0;
-					strncpy( board_db->zone_zap_db[ i ].zone_zap_add.name, "", GEOPOINT_NAME_SIZE - 1 );
-					board_db->zone_zap_db[ i ].zone_zap_add.lat 			= 0.0;
-					board_db->zone_zap_db[ i ].zone_zap_add.lon 			= 0.0;
-					board_db->zone_zap_db[ i ].zone_zap_add.hAbs 			= 0.0;
-					board_db->zone_zap_db[ i ].zone_zap_add.declination 	= 0.0;
+					board_db->zone_zap_db[ i ].zone_zap_add.num 		= 0;
+					strncpy( board_db->zone_zap_db[ i ].zone_zap_add.name, "", POINT_NAME_SIZE - 1 );
+					board_db->zone_zap_db[ i ].zone_zap_add.lat 		= 0.0;
+					board_db->zone_zap_db[ i ].zone_zap_add.lon 		= 0.0;
+					board_db->zone_zap_db[ i ].zone_zap_add.hAbs 		= 0.0;
+					board_db->zone_zap_db[ i ].zone_zap_add.declination = 0.0;
 				}
 				++i;
 			}
@@ -690,18 +688,18 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 			while ( i < MAX_ZONE_COUNT )
 			{
 					if ( board_db->zone_plt_db[ i ].zone_plt_add.valid.declination == 0 ||
-					board_db->zone_plt_db[ i ].zone_plt_add.valid.num == 0 ||
-					board_db->zone_plt_db[ i ].zone_plt_add.valid.name == 0 ||
-					board_db->zone_plt_db[ i ].zone_plt_add.valid.lat == 0 ||
-					board_db->zone_plt_db[ i ].zone_plt_add.valid.lon == 0 ||
+					board_db->zone_plt_db[ i ].zone_plt_add.valid.num == 0 				||
+					board_db->zone_plt_db[ i ].zone_plt_add.valid.name == 0 			||
+					board_db->zone_plt_db[ i ].zone_plt_add.valid.lat == 0 				||
+					board_db->zone_plt_db[ i ].zone_plt_add.valid.lon == 0 				||
 					board_db->zone_plt_db[ i ].zone_plt_add.valid.hAbs == 0 )
 				{
-					board_db->zone_plt_db[ i ].zone_plt_add.num 			= 0;
-					strncpy( board_db->zone_plt_db[ i ].zone_plt_add.name, "", GEOPOINT_NAME_SIZE - 1 );
-					board_db->zone_plt_db[ i ].zone_plt_add.lat 			= 0.0;
-					board_db->zone_plt_db[ i ].zone_plt_add.lon 			= 0.0;
-					board_db->zone_plt_db[ i ].zone_plt_add.hAbs 			= 0.0;
-					board_db->zone_plt_db[ i ].zone_plt_add.declination 	= 0.0;
+					board_db->zone_plt_db[ i ].zone_plt_add.num 		= 0;
+					strncpy( board_db->zone_plt_db[ i ].zone_plt_add.name, "", POINT_NAME_SIZE - 1 );
+					board_db->zone_plt_db[ i ].zone_plt_add.lat 		= 0.0;
+					board_db->zone_plt_db[ i ].zone_plt_add.lon 		= 0.0;
+					board_db->zone_plt_db[ i ].zone_plt_add.hAbs 		= 0.0;
+					board_db->zone_plt_db[ i ].zone_plt_add.declination = 0.0;
 				}
 				++i;
 			}
@@ -711,18 +709,18 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 			while ( i < MAX_ZONE_COUNT )
 			{
 					if ( board_db->zone_aer_db[ i ].zone_aer_add.valid.declination == 0 ||
-					board_db->zone_aer_db[ i ].zone_aer_add.valid.num == 0 ||
-					board_db->zone_aer_db[ i ].zone_aer_add.valid.name == 0 ||
-					board_db->zone_aer_db[ i ].zone_aer_add.valid.lat == 0 ||
-					board_db->zone_aer_db[ i ].zone_aer_add.valid.lon == 0 ||
+					board_db->zone_aer_db[ i ].zone_aer_add.valid.num == 0 				||
+					board_db->zone_aer_db[ i ].zone_aer_add.valid.name == 0 			||
+					board_db->zone_aer_db[ i ].zone_aer_add.valid.lat == 0 				||
+					board_db->zone_aer_db[ i ].zone_aer_add.valid.lon == 0 				||
 					board_db->zone_aer_db[ i ].zone_aer_add.valid.hAbs == 0 )
 				{
-					board_db->zone_aer_db[ i ].zone_aer_add.num 			= 0;
-					strncpy( board_db->zone_aer_db[ i ].zone_aer_add.name, "", GEOPOINT_NAME_SIZE - 1 );
-					board_db->zone_aer_db[ i ].zone_aer_add.lat 			= 0.0;
-					board_db->zone_aer_db[ i ].zone_aer_add.lon 			= 0.0;
-					board_db->zone_aer_db[ i ].zone_aer_add.hAbs 			= 0.0;
-					board_db->zone_aer_db[ i ].zone_aer_add.declination 	= 0.0;
+					board_db->zone_aer_db[ i ].zone_aer_add.num 		= 0;
+					strncpy( board_db->zone_aer_db[ i ].zone_aer_add.name, "", POINT_NAME_SIZE - 1 );
+					board_db->zone_aer_db[ i ].zone_aer_add.lat 		= 0.0;
+					board_db->zone_aer_db[ i ].zone_aer_add.lon 		= 0.0;
+					board_db->zone_aer_db[ i ].zone_aer_add.hAbs 		= 0.0;
+					board_db->zone_aer_db[ i ].zone_aer_add.declination = 0.0;
 				}
 				++i;
 			}
@@ -732,18 +730,18 @@ void check_valid( s_board_db_t *board_db, enum type_db current ){
 			while ( i < MAX_RM_RSBN_COUNT )
 			{
 					if ( board_db->rsbn_db[ i ].rsbn_add.valid.declination == 0 ||
-					board_db->rsbn_db[ i ].rsbn_add.valid.num == 0 ||
-					board_db->rsbn_db[ i ].rsbn_add.valid.name == 0 ||
-					board_db->rsbn_db[ i ].rsbn_add.valid.lat == 0 ||
-					board_db->rsbn_db[ i ].rsbn_add.valid.lon == 0 ||
+					board_db->rsbn_db[ i ].rsbn_add.valid.num == 0 				||
+					board_db->rsbn_db[ i ].rsbn_add.valid.name == 0 			||
+					board_db->rsbn_db[ i ].rsbn_add.valid.lat == 0 				||
+					board_db->rsbn_db[ i ].rsbn_add.valid.lon == 0 				||
 					board_db->rsbn_db[ i ].rsbn_add.valid.hAbs == 0 )
 				{
-					board_db->rsbn_db[ i ].rsbn_add.num 			= 0;
-					strncpy( board_db->rsbn_db[ i ].rsbn_add.name, "", GEOPOINT_NAME_SIZE - 1 );
-					board_db->rsbn_db[ i ].rsbn_add.lat 			= 0.0;
-					board_db->rsbn_db[ i ].rsbn_add.lon 			= 0.0;
-					board_db->rsbn_db[ i ].rsbn_add.hAbs 			= 0.0;
-					board_db->rsbn_db[ i ].rsbn_add.declination 	= 0.0;
+					board_db->rsbn_db[ i ].rsbn_add.num 		= 0;
+					strncpy( board_db->rsbn_db[ i ].rsbn_add.name, "", POINT_NAME_SIZE - 1 );
+					board_db->rsbn_db[ i ].rsbn_add.lat 		= 0.0;
+					board_db->rsbn_db[ i ].rsbn_add.lon 		= 0.0;
+					board_db->rsbn_db[ i ].rsbn_add.hAbs 		= 0.0;
+					board_db->rsbn_db[ i ].rsbn_add.declination = 0.0;
 				}
 				++i;
 			}
@@ -885,47 +883,47 @@ void set_valid( s_board_db_t* board_db, uint num_board_db, enum type_db current 
 {
 	switch ( current ) {
 		case geo_db: {
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.num 			= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.name			= 1; 
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.lat 			= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.lon 			= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.hAbs 		= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.declination 	= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.editability	= 1;
-			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.deletable	= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.num 						= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.name						= 1; 
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.lat 						= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.lon 						= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.hAbs 					= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.declination 				= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.editability				= 1;
+			board_db->geo_db[ num_board_db - 1 ].geo_add.valid.deletable				= 1;
 			return;
 		}
 		case aer_db: {
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.num 			= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.name			= 1; 
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.lat 			= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.lon 			= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.hAbs 		= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.declination 	= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.editability	= 1;
-			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.deletable	= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.num 						= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.name						= 1; 
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.lat 						= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.lon 						= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.hAbs 					= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.declination 				= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.editability				= 1;
+			board_db->aer_db[ num_board_db - 1 ].aer_add.valid.deletable				= 1;
 			return;
 		}
 		case mrsh_db: {
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.num 			= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.name			= 1; 
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.lat 			= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.lon 			= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.hAbs 		= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.declination 	= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.editability	= 1;
-			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.deletable	= 1;
-			return;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.num 					= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.name					= 1; 
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.lat 					= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.lon 					= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.hAbs 					= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.declination 			= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.editability 			= 1;
+			board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.valid.deletable				= 1;
+			return;	
 		}
 		case vor_db: {
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.num 			= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.name			= 1; 
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.lat 			= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.lon 			= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.hAbs 		= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.declination 	= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.editability	= 1;
-			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.deletable	= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.num 						= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.name						= 1; 
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.lat 						= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.lon 						= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.hAbs 					= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.declination 				= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.editability				= 1;
+			board_db->vor_db[ num_board_db - 1 ].vor_add.valid.deletable				= 1;
 			return;
 		}
 		case zone_zap_db: {
@@ -933,10 +931,10 @@ void set_valid( s_board_db_t* board_db, uint num_board_db, enum type_db current 
 			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.name			= 1; 
 			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.lat 			= 1;
 			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.lon 			= 1;
-			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.hAbs 		= 1;
+			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.hAbs 			= 1;
 			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.declination 	= 1;
 			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.editability	= 1;
-			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.deletable	= 1;
+			board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.valid.deletable		= 1;
 			return;
 		}
 		case zone_plt_db: {
@@ -944,10 +942,10 @@ void set_valid( s_board_db_t* board_db, uint num_board_db, enum type_db current 
 			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.name			= 1; 
 			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.lat 			= 1;
 			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.lon 			= 1;
-			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.hAbs 		= 1;
+			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.hAbs 			= 1;
 			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.declination 	= 1;
 			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.editability	= 1;
-			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.deletable	= 1;
+			board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.valid.deletable		= 1;
 			return;
 		}
 		case zone_aer_db: {
@@ -955,21 +953,21 @@ void set_valid( s_board_db_t* board_db, uint num_board_db, enum type_db current 
 			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.name			= 1; 
 			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.lat 			= 1;
 			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.lon 			= 1;
-			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.hAbs 		= 1;
+			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.hAbs 			= 1;
 			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.declination 	= 1;
 			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.editability	= 1;
-			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.deletable	= 1;
+			board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.valid.deletable		= 1;
 			return;
 		}
 		case rsbn_db: {
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.num 			= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.name			= 1; 
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.lat 			= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.lon 			= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.hAbs 		= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.declination 	= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.editability	= 1;
-			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.deletable	= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.num 					= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.name					= 1; 
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.lat 					= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.lon 					= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.hAbs 					= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.declination 			= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.editability			= 1;
+			board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.valid.deletable				= 1;
 			return;
 		}
 		default:
@@ -1037,7 +1035,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->geo_db[ num_to_edit - 1 ].geo_add.num 		= num_to_edit;
-						        strncpy( board_db->geo_db[ num_to_edit - 1 ].geo_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->geo_db[ num_to_edit - 1 ].geo_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->geo_db[ num_to_edit - 1 ].geo_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->geo_db[ num_to_edit - 1 ].geo_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->geo_db[ num_to_edit - 1 ].geo_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1130,7 +1128,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->aer_db[ num_to_edit - 1 ].aer_add.num 		= num_to_edit;
-						        strncpy( board_db->aer_db[ num_to_edit - 1 ].aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->aer_db[ num_to_edit - 1 ].aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->aer_db[ num_to_edit - 1 ].aer_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->aer_db[ num_to_edit - 1 ].aer_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->aer_db[ num_to_edit - 1 ].aer_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1223,7 +1221,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.num 		= num_to_edit;
-						        strncpy( board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->mrsh_db[ num_to_edit - 1 ].mrsh_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1316,7 +1314,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.num 		= num_to_edit;
-						        strncpy( board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->rsbn_db[ num_to_edit - 1 ].rsbn_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1409,7 +1407,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.num 		= num_to_edit;
-						        strncpy( board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->zone_zap_db[ num_to_edit - 1 ].zone_zap_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1502,7 +1500,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.num 		= num_to_edit;
-						        strncpy( board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->zone_plt_db[ num_to_edit - 1 ].zone_plt_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1595,7 +1593,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.num 		= num_to_edit;
-						        strncpy( board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->zone_aer_db[ num_to_edit - 1 ].zone_aer_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1688,7 +1686,7 @@ void edit_board_db( GtkWidget *widget, gpointer data, int size_board_db, char wa
 								// Обновление параметров точки
 						        // Translate: Update the geopoint with the new values
 						        board_db->vor_db[ num_to_edit - 1 ].vor_add.num 		= num_to_edit;
-						        strncpy( board_db->vor_db[ num_to_edit - 1 ].vor_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						        strncpy( board_db->vor_db[ num_to_edit - 1 ].vor_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						        board_db->vor_db[ num_to_edit - 1 ].vor_add.lat 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						        board_db->vor_db[ num_to_edit - 1 ].vor_add.lon 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						        board_db->vor_db[ num_to_edit - 1 ].vor_add.hAbs 		= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1827,7 +1825,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 				switch ( current ) {
 					case geo_db: {
 						board_db->geo_db[ num_board_db - 1 ].geo_add.num 			= num_board_db;
-						strncpy( board_db->geo_db[ num_board_db - 1 ].geo_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->geo_db[ num_board_db - 1 ].geo_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->geo_db[ num_board_db - 1 ].geo_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->geo_db[ num_board_db - 1 ].geo_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->geo_db[ num_board_db - 1 ].geo_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1881,7 +1879,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case aer_db: {
 						board_db->aer_db[ num_board_db - 1 ].aer_add.num 			= num_board_db;
-						strncpy( board_db->aer_db[ num_board_db - 1 ].aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->aer_db[ num_board_db - 1 ].aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->aer_db[ num_board_db - 1 ].aer_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->aer_db[ num_board_db - 1 ].aer_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->aer_db[ num_board_db - 1 ].aer_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1935,7 +1933,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case mrsh_db: {
 						board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.num 			= num_board_db;
-						strncpy( board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->mrsh_db[ num_board_db - 1 ].mrsh_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -1989,7 +1987,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case rsbn_db: {
 						board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.num 			= num_board_db;
-						strncpy( board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->rsbn_db[ num_board_db - 1 ].rsbn_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -2043,7 +2041,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case vor_db: {
 						board_db->vor_db[ num_board_db - 1 ].vor_add.num 			= num_board_db;
-						strncpy( board_db->vor_db[ num_board_db - 1 ].vor_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->vor_db[ num_board_db - 1 ].vor_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->vor_db[ num_board_db - 1 ].vor_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->vor_db[ num_board_db - 1 ].vor_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->vor_db[ num_board_db - 1 ].vor_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -2097,7 +2095,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case zone_zap_db: {
 						board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.num 			= num_board_db;
-						strncpy( board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->zone_zap_db[ num_board_db - 1 ].zone_zap_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -2151,7 +2149,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case zone_plt_db: {
 						board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.num 			= num_board_db;
-						strncpy( board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->zone_plt_db[ num_board_db - 1 ].zone_plt_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -2209,7 +2207,7 @@ void add_board_db( GtkWidget *widget, gpointer data, int size_board_db, char war
 					}
 					case zone_aer_db: {
 						board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.num 			= num_board_db;
-						strncpy( board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), GEOPOINT_NAME_SIZE - 1 );
+						strncpy( board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.name, gtk_entry_get_text( GTK_ENTRY( entry_name ) ), POINT_NAME_SIZE - 1 );
 						board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.lat 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lat ) ) );
 						board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.lon 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_lon ) ) );
 						board_db->zone_aer_db[ num_board_db - 1 ].zone_aer_add.hAbs 			= atof( gtk_entry_get_text( GTK_ENTRY( entry_hAbs ) ) );
@@ -2311,7 +2309,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->geo_db[ num_to_delete - 1 ].geo_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->geo_db[ num_to_delete - 1 ].geo_add.num 			= 0;
-				        strncpy( board_db->geo_db[ num_to_delete - 1 ].geo_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->geo_db[ num_to_delete - 1 ].geo_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->geo_db[ num_to_delete - 1 ].geo_add.lat 			= 0.0;
 				        board_db->geo_db[ num_to_delete - 1 ].geo_add.lon 			= 0.0;
 				        board_db->geo_db[ num_to_delete - 1 ].geo_add.hAbs 			= 0.0;
@@ -2331,7 +2329,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->aer_db[ num_to_delete - 1 ].aer_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->aer_db[ num_to_delete - 1 ].aer_add.num 			= 0;
-				        strncpy( board_db->aer_db[ num_to_delete - 1 ].aer_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->aer_db[ num_to_delete - 1 ].aer_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->aer_db[ num_to_delete - 1 ].aer_add.lat 			= 0.0;
 				        board_db->aer_db[ num_to_delete - 1 ].aer_add.lon 			= 0.0;
 				        board_db->aer_db[ num_to_delete - 1 ].aer_add.hAbs 			= 0.0;
@@ -2351,7 +2349,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.num 			= 0;
-				        strncpy( board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.lat 			= 0.0;
 				        board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.lon 			= 0.0;
 				        board_db->rsbn_db[ num_to_delete - 1 ].rsbn_add.hAbs 			= 0.0;
@@ -2371,7 +2369,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->vor_db[ num_to_delete - 1 ].vor_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->vor_db[ num_to_delete - 1 ].vor_add.num 			= 0;
-				        strncpy( board_db->vor_db[ num_to_delete - 1 ].vor_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->vor_db[ num_to_delete - 1 ].vor_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->vor_db[ num_to_delete - 1 ].vor_add.lat 			= 0.0;
 				        board_db->vor_db[ num_to_delete - 1 ].vor_add.lon 			= 0.0;
 				        board_db->vor_db[ num_to_delete - 1 ].vor_add.hAbs 			= 0.0;
@@ -2391,7 +2389,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.num 			= 0;
-				        strncpy( board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.lat 			= 0.0;
 				        board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.lon 			= 0.0;
 				        board_db->zone_zap_db[ num_to_delete - 1 ].zone_zap_add.hAbs 			= 0.0;
@@ -2411,7 +2409,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.num 			= 0;
-				        strncpy( board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.lat 			= 0.0;
 				        board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.lon 			= 0.0;
 				        board_db->zone_plt_db[ num_to_delete - 1 ].zone_plt_add.hAbs 			= 0.0;
@@ -2431,7 +2429,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.num 			= 0;
-				        strncpy( board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.lat 			= 0.0;
 				        board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.lon 			= 0.0;
 				        board_db->zone_aer_db[ num_to_delete - 1 ].zone_aer_add.hAbs 			= 0.0;
@@ -2451,7 +2449,7 @@ void delete_board_db( GtkWidget *widget, gpointer data, int size_board_db, char 
 				    if ( num_to_delete > 0 && num_to_delete <= size_board_db && board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.valid.deletable == 1 ) {
 				        // Set all parameters of the geopoint to zero
 				        board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.num 			= 0;
-				        strncpy( board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.name, "", GEOPOINT_NAME_SIZE - 1 );
+				        strncpy( board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.name, "", POINT_NAME_SIZE - 1 );
 				        board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.lat 			= 0.0;
 				        board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.lon 			= 0.0;
 				        board_db->mrsh_db[ num_to_delete - 1 ].mrsh_add.hAbs 			= 0.0;
